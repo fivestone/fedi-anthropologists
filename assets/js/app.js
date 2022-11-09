@@ -56,12 +56,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /**
  * Fetches the users.csv file from the server and returns the parsed CSV data
- *
+ *  
  * @return  {Array<{ account: string, link: string, name: string }>}  A multi-dimensional array containing the parsed CSV file contents.
  */
 async function getCSVData () {
   // Fetch the CSV file
-  const response = await fetch('resources/users.csv')
+  const response = await fetch('resources/anthropologists.csv')
   // Retrieve the file contents as plain text
   const data = await response.text()
   // Parse them into a multi-dimensional array of objects. In our case:
@@ -138,17 +138,28 @@ function buildUserSelectionForm (users) {
 
     const label = document.createElement('label')
     label.setAttribute('for', user.account)
-    label.textContent = `${user.account} (${user.name}) `
+    label.textContent = `${user.account} `
 
     wrapper.appendChild(label)
 
     if ('link' in user && user.link.trim() !== '') {
-      const profileLink = document.createElement('a')
-      profileLink.textContent = user.link.replace('https://', '')
-      profileLink.setAttribute('href', user.link)
-      profileLink.setAttribute('target', '_blank')
-      wrapper.appendChild(profileLink)
+      const nameLink = document.createElement('a')
+      nameLink.textContent = user.name
+      nameLink.setAttribute('href', user.link)
+      nameLink.setAttribute('target', '_blank')
+      wrapper.appendChild(nameLink)
     }
+
+    const keywords = document.createElement('label')
+    keywords.textContent = ` : ${user.keywords} `
+    wrapper.appendChild(keywords)
+
+    const new_line = document.createElement('br')
+    wrapper.appendChild(new_line)
+
+    const intro = document.createElement('label')
+    intro.textContent = `${user.intro} `
+    wrapper.appendChild(intro)
 
     container.appendChild(wrapper)
   }
